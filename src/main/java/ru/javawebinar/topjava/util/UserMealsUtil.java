@@ -84,17 +84,22 @@ public class UserMealsUtil {
         /* Stream API */
 
         // TODO: Modify
-        mealList.forEach(m -> {
-            LocalDate localDate = m.getDateTime().toLocalDate();
+        mealList.stream()
+                .map(m -> {
+                    LocalDate localDate = m.getDateTime().toLocalDate();
 
-            if (mealForDaysCalories.containsKey(localDate)) {
-                mealForDaysCalories.put(
-                        localDate,
-                        mealForDaysCalories.get(localDate) + m.getCalories());
-            } else {
-                mealForDaysCalories.put(localDate, m.getCalories());
-            }
-        });
+                    if (mealForDaysCalories.containsKey(localDate)) {
+                        mealForDaysCalories.put(
+                                localDate,
+                                mealForDaysCalories.get(localDate) + m.getCalories());
+                    } else {
+                        mealForDaysCalories.put(localDate, m.getCalories());
+                    }
+                    System.out.println(m);
+
+                    return m;
+                })
+                .collect(Collectors.toList());
 
         //
         mealWithExceedList = mealList
