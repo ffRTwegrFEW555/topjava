@@ -36,35 +36,32 @@ public class UserMealsUtil {
                                                                    int caloriesPerDay) {
         // TODO return filtered list with correctly exceeded field
 
-        /*
-            Реализовать метод UserMealsUtil.getFilteredWithExceeded:
-            -  должны возвращаться только записи между startTime и endTime
-            -  поле UserMealWithExceed.exceed должно показывать,
-                                                 превышает ли сумма калорий за весь день параметра метода caloriesPerDay
+/*
+        Реализовать метод UserMealsUtil.getFilteredWithExceeded:
+        -  должны возвращаться только записи между startTime и endTime
+        -  поле UserMealWithExceed.exceed должно показывать,
+                                             превышает ли сумма калорий за весь день параметра метода caloriesPerDay
 
-            Т.е UserMealWithExceed - это запись одной еды, но поле exceeded будет одинаково для всех записей за этот день.
+        Т.е UserMealWithExceed - это запись одной еды, но поле exceeded будет одинаково для всех записей за этот день.
 
-            - Проверте результат выполнения ДЗ (можно проверить логику в http://topjava.herokuapp.com , список еды)
-            - Оцените Time complexity вашего алгоритма, если он O(N*N)- попробуйте сделать O(N).
-         */
+        - Проверте результат выполнения ДЗ (можно проверить логику в http://topjava.herokuapp.com , список еды)
+        - Оцените Time complexity вашего алгоритма, если он O(N*N)- попробуйте сделать O(N).
+*/
 
         List<UserMealWithExceed> mealWithExceedList = new ArrayList<>();
         Map<LocalDate, Integer> mealForDaysCalories = new HashMap<>();
+        Map<LocalDate, Boolean> mealForDaysBoolean = new HashMap<>();
+
+
+        /* forEach */
 
 /*
-        *//* forEach *//*
-
         //
         mealList.forEach(m -> {
             LocalDate localDate = m.getDateTime().toLocalDate();
 
-            if (mealForDaysCalories.containsKey(localDate)) {
-                mealForDaysCalories.put(
-                        localDate,
-                        mealForDaysCalories.get(localDate) + m.getCalories());
-            } else {
-                mealForDaysCalories.put(localDate, m.getCalories());
-            }
+            mealForDaysCalories.computeIfPresent(localDate, (k, v) -> v + m.getCalories());
+            mealForDaysCalories.computeIfAbsent(localDate, v -> m.getCalories());
         });
 
         //
@@ -81,27 +78,25 @@ public class UserMealsUtil {
         });
 */
 
-        //
-        mealList.forEach(m -> {
-                    LocalDate localDate = m.getDateTime().toLocalDate();
-
-                    if (mealForDaysCalories.computeIfAbsent(localDate, v -> m.getCalories()) == null) {
-                        mealForDaysCalories.computeIfPresent(localDate, (k, v) -> v + m.getCalories());
-                    }
-                });
-
-
         /* Stream API */
 
         //
         mealWithExceedList = mealList
                 .stream()
+                .peek(m -> {
+                    LocalDate localDate = m.getDateTime().toLocalDate();
+
+                    mealForDaysCalories.computeIfPresent(localDate, (k, v) -> v + m.getCalories());
+                    mealForDaysCalories.computeIfAbsent(localDate, v -> m.getCalories());
+
+                    mealForDaysBoolean.put(localDate, mealForDaysCalories.get(localDate) > caloriesPerDay);
+                })
                 .filter(m -> TimeUtil.isBetween(m.getDateTime().toLocalTime(), startTime, endTime))
                 .map(m -> new UserMealWithExceed(
                         m.getDateTime(),
                         m.getDescription(),
                         m.getCalories(),
-                        mealForDaysCalories.get(m.getDateTime().toLocalDate()) > caloriesPerDay))
+                        mealForDaysBoolean.get(m.getDateTime().toLocalDate())))
                 .collect(Collectors.toList());
 
         return mealWithExceedList;
