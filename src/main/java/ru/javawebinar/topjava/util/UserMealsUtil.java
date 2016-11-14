@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -50,7 +51,7 @@ public class UserMealsUtil {
 
         List<UserMealWithExceed> mealWithExceedList = new ArrayList<>();
         Map<LocalDate, Integer> mealForDaysCalories = new HashMap<>();
-        Map<LocalDate, Boolean> mealForDaysBoolean = new HashMap<>();
+        Map<LocalDate, AtomicBoolean> mealForDaysBoolean = new HashMap<>();
 
 
         /* forEach */
@@ -89,7 +90,9 @@ public class UserMealsUtil {
                     mealForDaysCalories.computeIfPresent(localDate, (k, v) -> v + m.getCalories());
                     mealForDaysCalories.computeIfAbsent(localDate, v -> m.getCalories());
 
-                    mealForDaysBoolean.put(localDate, mealForDaysCalories.get(localDate) > caloriesPerDay);
+                    mealForDaysBoolean.computeIfAbsent(localDate, v -> new AtomicBoolean(m.getCalories() > caloriesPerDay));
+                    mealForDaysBoolean.get(localDate).set(mealForDaysCalories.get(localDate) > caloriesPerDay);
+
                 })
                 .filter(m -> TimeUtil.isBetween(m.getDateTime().toLocalTime(), startTime, endTime))
                 .map(m -> new UserMealWithExceed(
