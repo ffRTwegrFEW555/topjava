@@ -49,7 +49,7 @@ public class UserMealsUtil {
         - Оцените Time complexity вашего алгоритма, если он O(N*N)- попробуйте сделать O(N).
 */
 
-        List<UserMealWithExceed> mealWithExceedList = new ArrayList<>();
+        List<UserMealWithExceed> mealWithExceedList;
         Map<LocalDate, Integer> mealForDaysCalories = new HashMap<>();
         Map<LocalDate, AtomicBoolean> mealForDaysBoolean = new HashMap<>();
 
@@ -74,7 +74,7 @@ public class UserMealsUtil {
                         m.getDateTime(),
                         m.getDescription(),
                         m.getCalories(),
-                        mealForDaysCalories.get(localDate) > caloriesPerDay));
+                        mealForDaysCalories.get(localDate) > caloriesPerDay)); // used: boolean exceed;
             }
         });
 */
@@ -92,7 +92,6 @@ public class UserMealsUtil {
 
                     mealForDaysBoolean.computeIfAbsent(localDate, v -> new AtomicBoolean(m.getCalories() > caloriesPerDay));
                     mealForDaysBoolean.get(localDate).set(mealForDaysCalories.get(localDate) > caloriesPerDay);
-
                 })
                 .filter(m -> TimeUtil.isBetween(m.getDateTime().toLocalTime(), startTime, endTime))
                 .map(m -> new UserMealWithExceed(
