@@ -35,53 +35,14 @@ public class UserMealsUtil {
                                                                    LocalTime startTime,
                                                                    LocalTime endTime,
                                                                    int caloriesPerDay) {
-        // TODO return filtered list with correctly exceeded field
 
-/*
-        Реализовать метод UserMealsUtil.getFilteredWithExceeded:
-        -  должны возвращаться только записи между startTime и endTime
-        -  поле UserMealWithExceed.exceed должно показывать,
-                                             превышает ли сумма калорий за весь день параметра метода caloriesPerDay
-
-        Т.е UserMealWithExceed - это запись одной еды, но поле exceeded будет одинаково для всех записей за этот день.
-
-        - Проверте результат выполнения ДЗ (можно проверить логику в http://topjava.herokuapp.com , список еды)
-        - Оцените Time complexity вашего алгоритма, если он O(N*N)- попробуйте сделать O(N).
-*/
+        // class UserMealWithExceed: change "boolean" to "AtomicBoolean";
+        // "AtomicBoolean" supported by most json-frameworks, including Jackson;
 
         List<UserMealWithExceed> mealWithExceedList;
         Map<LocalDate, Integer> mealForDaysCalories = new HashMap<>();
         Map<LocalDate, AtomicBoolean> mealForDaysBoolean = new HashMap<>();
 
-
-        /* forEach */
-
-/*
-        //
-        mealList.forEach(m -> {
-            LocalDate localDate = m.getDateTime().toLocalDate();
-
-            mealForDaysCalories.computeIfPresent(localDate, (k, v) -> v + m.getCalories());
-            mealForDaysCalories.computeIfAbsent(localDate, v -> m.getCalories());
-        });
-
-        //
-        mealList.forEach(m -> {
-            LocalDate localDate = m.getDateTime().toLocalDate();
-
-            if (TimeUtil.isBetween(m.getDateTime().toLocalTime(), startTime, endTime)) {
-                mealWithExceedList.add(new UserMealWithExceed(
-                        m.getDateTime(),
-                        m.getDescription(),
-                        m.getCalories(),
-                        mealForDaysCalories.get(localDate) > caloriesPerDay)); // used: boolean exceed;
-            }
-        });
-*/
-
-        /* Stream API */
-
-        //
         mealWithExceedList = mealList
                 .stream()
                 .peek(m -> {
