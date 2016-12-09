@@ -48,8 +48,7 @@ public class UserMealsUtil {
                 .peek(m -> {
                     LocalDate localDate = m.getDateTime().toLocalDate();
 
-                    mealForDaysCalories.computeIfPresent(localDate, (k, v) -> v + m.getCalories());
-                    mealForDaysCalories.computeIfAbsent(localDate, v -> m.getCalories());
+                    mealForDaysCalories.merge(localDate, m.getCalories(), (oldV, newV) -> oldV + newV);
 
                     mealForDaysBoolean.computeIfAbsent(localDate, v -> new AtomicBoolean(m.getCalories() > caloriesPerDay));
                     mealForDaysBoolean.get(localDate).set(mealForDaysCalories.get(localDate) > caloriesPerDay);
