@@ -1,15 +1,11 @@
 package ru.javawebinar.topjava.dao;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.web.MealServlet;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Month;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -52,15 +48,6 @@ public class MealDaoImplMemory implements MealDao {
         return mealsList;
     }
 
-    @Override
-    public List<MealWithExceed> getAllWithExceed() {
-        return MealsUtil.getFilteredWithExceeded(
-                getAll(),
-                LocalTime.MIN,
-                LocalTime.MAX,
-                2000
-        );
-    }
 
     @Override
     public Meal getById(int id) {

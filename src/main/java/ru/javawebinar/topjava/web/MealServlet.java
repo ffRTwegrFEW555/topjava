@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.MealDaoImplMemory;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -51,7 +53,12 @@ public class MealServlet extends HttpServlet {
 
         } else { // Page Meals
             LOG.debug("add attribute 'mealsList with Exceed' and forward to 'meals.jsp'");
-            req.setAttribute("mealsList", mealDaoImplMemory.getAllWithExceed());
+            req.setAttribute("mealsList", MealsUtil.getFilteredWithExceeded(
+                    mealDaoImplMemory.getAll(),
+                    LocalTime.MIN,
+                    LocalTime.MAX,
+                    2000
+            ));
             req.getRequestDispatcher("meals.jsp").forward(req, resp);
 
         }
