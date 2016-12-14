@@ -40,8 +40,7 @@
             </thead>
             <tbody>
             <c:forEach items="${mealsList}" var="meals">
-                <c:if test="${meals.exceed}"><tr style="color: red"/></c:if>
-                <c:if test="${!meals.exceed}"><tr style="color: green"/></c:if>
+                <tr style="color: ${meals.exceed ? 'red' : 'green'}"/>
                     <td>${meals.description}</td>
                     <td>
                         <fmt:parseDate value="${meals.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" type="both" var="mealDateTime"/>

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
  * 31.05.2015.
  */
 public class MealsUtil {
+    private static List<Meal> mealsList = new CopyOnWriteArrayList<>();
+
     public static void main(String[] args) {
         List<Meal> meals = Arrays.asList(
                 new Meal(MealDaoImplMemory.getNewId(), LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
@@ -60,5 +63,9 @@ public class MealsUtil {
 
     public static MealWithExceed createWithExceed(Meal meal, boolean exceeded) {
         return new MealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
+    }
+
+    public static List<Meal> getMealsList() {
+        return mealsList;
     }
 }

@@ -113,12 +113,13 @@ public class MealServlet extends HttpServlet {
             LOG.debug("Update meal: redirect to 'meals.jsp'");
 
             if (id != 0) {
-                Meal meal = mealDaoImplMemory.getById(id);
-                if (meal != null) {
-                    meal.setDateTime(localDateTime);
-                    meal.setDescription(description);
-                    meal.setCalories(calories);
-                }
+                Meal meal = new Meal(
+                        id,
+                        localDateTime,
+                        description,
+                        calories);
+                mealDaoImplMemory.update(meal);
+
             }
         }
 
