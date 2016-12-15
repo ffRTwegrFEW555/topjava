@@ -27,7 +27,7 @@
 <h1>Meals list</h1>
 
 <c:choose>
-    <c:when test="${not empty mealsList}">
+    <c:when test="${not empty  mealsList}">
         <table>
             <thead>
             <tr>

@@ -18,7 +18,7 @@
 </head>
 <body>
 <a href="meals">return to Meals</a>
-<h1>${action == 'add' ? 'Add meal:' : "Update meal:"}</h1>
+<h1>${param.action == 'add' ? 'Add meal:' : "Update meal:"}</h1>
 
 <form method="POST" action="meals">
     <table>
@@ -51,8 +51,8 @@
         </tr>
         </tbody>
     </table>
-    <input type="hidden" name="action" value="${action == 'add' ? 'add' : 'update'}"/>
-    <input type="submit" value="${action == 'add' ? 'add meal' : 'update meal'}"/>
+    <input type="hidden" name="action" value="${param.action == 'add' ? 'add' : 'update'}"/>
+    <input type="submit" value="${param.action == 'add' ? 'add meal' : 'update meal'}"/>
 </form>
 
 </body>

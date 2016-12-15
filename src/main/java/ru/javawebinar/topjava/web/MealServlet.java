@@ -34,12 +34,10 @@ public class MealServlet extends HttpServlet {
 
         if ("add".equalsIgnoreCase(action)) { // Add
             LOG.debug("Add meal: forward to 'meal.jsp'");
-            req.setAttribute("action", "add");
             req.getRequestDispatcher("meal.jsp").forward(req, resp);
 
         } else if ("update".equalsIgnoreCase(action)) { // Update
             LOG.debug("Update meal: forward to 'meal.jsp'");
-            req.setAttribute("action", "update");
             req.setAttribute(
                     "meal",
                     mealDaoImplMemory.getById(Integer.parseInt(req.getParameter("id"))));
