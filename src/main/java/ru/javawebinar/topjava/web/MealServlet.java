@@ -25,8 +25,8 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = getLogger(MealServlet.class);
-    private static final MealDaoImplMemory mealDaoImplMemory = new MealDaoImplMemory();
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final MealDaoImplMemory MEAL_DAO_IMPL_MEMORY = new MealDaoImplMemory();
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,19 +40,19 @@ public class MealServlet extends HttpServlet {
             LOG.debug("Update meal: forward to 'meal.jsp'");
             req.setAttribute(
                     "meal",
-                    mealDaoImplMemory.getById(Integer.parseInt(req.getParameter("id"))));
+                    MEAL_DAO_IMPL_MEMORY.getById(Integer.parseInt(req.getParameter("id"))));
             req.getRequestDispatcher("meal.jsp").forward(req, resp);
 
         } else if ("remove".equalsIgnoreCase(action)) { // Remove
             String id = req.getParameter("id");
             LOG.debug("remove meal with ID: " + id);
-            mealDaoImplMemory.remove(Integer.parseInt(id));
+            MEAL_DAO_IMPL_MEMORY.remove(Integer.parseInt(id));
             resp.sendRedirect("meals");
 
         } else { // Page Meals
             LOG.debug("add attribute 'mealsList with Exceed' and forward to 'meals.jsp'");
             req.setAttribute("mealsList", MealsUtil.getFilteredWithExceeded(
-                    mealDaoImplMemory.getAll(),
+                    MEAL_DAO_IMPL_MEMORY.getAll(),
                     LocalTime.MIN,
                     LocalTime.MAX,
                     2000
@@ -85,7 +85,7 @@ public class MealServlet extends HttpServlet {
             try {
                 localDateTime = LocalDateTime.parse(
                         dateTimeText,
-                        dateTimeFormatter);
+                        DATE_TIME_FORMATTER);
             } catch (Exception e) {
                 localDateTime = LocalDateTime.now();
             }
@@ -112,7 +112,7 @@ public class MealServlet extends HttpServlet {
                     localDateTime,
                     description,
                     calories);
-            mealDaoImplMemory.add(meal);
+            MEAL_DAO_IMPL_MEMORY.add(meal);
 
         } else if ("update".equalsIgnoreCase(action)) {
             LOG.debug("Update meal: redirect to 'meals.jsp'");
@@ -123,7 +123,7 @@ public class MealServlet extends HttpServlet {
                         localDateTime,
                         description,
                         calories);
-                mealDaoImplMemory.update(meal);
+                MEAL_DAO_IMPL_MEMORY.update(meal);
 
             }
         }
