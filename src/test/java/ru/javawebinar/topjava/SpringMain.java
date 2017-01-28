@@ -21,8 +21,8 @@ import java.util.List;
 public class SpringMain {
     public static void main(String[] args) {
         // java 7 Automatic resource management
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            appCtx.getEnvironment().setActiveProfiles("postgres", "datajpa");
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml"}, false)) {
+            appCtx.getEnvironment().setActiveProfiles(Profiles.ACTIVE_DB, Profiles.ACTIVE_REPOSITORY);
             appCtx.refresh();
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));

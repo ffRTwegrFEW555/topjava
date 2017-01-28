@@ -16,8 +16,8 @@
     <import resource="spring-tools.xml"/>
 
     <!-- Profiles -->
-    <import resource="profiles/spring-db.xml"/>
-    <import resource="profiles/spring-repository.xml"/>
+    <import resource="spring-db.xml"/>
+    <import resource="spring-repository.xml"/>
 
 
     <!--            -->
@@ -25,10 +25,7 @@
     <!--            -->
 
     <context:annotation-config/>
-
-    <beans profile="jdbc, jpa, datajpa, inmemory">
-        <context:component-scan base-package="ru.javawebinar.**.service"/>
-        <context:component-scan base-package="ru.javawebinar.**.web"/>
-    </beans>
+    <context:component-scan base-package="ru.javawebinar.**.service"/>
+    <context:component-scan base-package="ru.javawebinar.**.web"/>
 
 </beans>
