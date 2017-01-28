@@ -11,12 +11,21 @@
             <property name="repository" ref="mockUserRepository"/>
         </bean>
     -->
+
+    <!-- Cache -->
     <import resource="spring-tools.xml"/>
 
+    <!-- Profiles -->
+    <import resource="profiles/spring-db.xml"/>
+    <import resource="profiles/spring-repository.xml"/>
+
+
+    <!--            -->
+    <!-- Context    -->
+    <!--            -->
+
     <context:annotation-config/>
-
     <context:component-scan base-package="ru.javawebinar.**.service"/>
-
     <context:component-scan base-package="ru.javawebinar.**.web"/>
 
 </beans>
