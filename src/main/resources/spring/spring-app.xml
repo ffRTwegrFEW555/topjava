@@ -25,7 +25,10 @@
     <!--            -->
 
     <context:annotation-config/>
-    <context:component-scan base-package="ru.javawebinar.**.service"/>
-    <context:component-scan base-package="ru.javawebinar.**.web"/>
+
+    <beans profile="jdbc, jpa, datajpa, inmemory">
+        <context:component-scan base-package="ru.javawebinar.**.service"/>
+        <context:component-scan base-package="ru.javawebinar.**.web"/>
+    </beans>
 
 </beans>

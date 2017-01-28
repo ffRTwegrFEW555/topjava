@@ -18,11 +18,13 @@ public interface UserService {
 
     User get(int id) throws NotFoundException;
 
+    User getWithMealLazy(int id) throws NotFoundException;
+
     User getByEmail(String email) throws NotFoundException;
 
     List<User> getAll();
 
     void update(User user);
-    
+
     void evictCache();
 }
