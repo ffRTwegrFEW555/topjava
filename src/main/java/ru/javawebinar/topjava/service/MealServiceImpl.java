@@ -32,10 +32,8 @@ public class MealServiceImpl implements MealService {
 
     @Override
     @Transactional
-    public Meal getWithUserLazy(int id, int userId) throws NotFoundException {
-        Meal meal = get(id, userId);
-        meal.getUser().isEnabled();
-        return meal;
+    public Meal getWithUser(int id, int userId) throws NotFoundException {
+        return repository.getWithUser(id, userId);
     }
 
     @CacheEvict(value = "meals", allEntries = true)

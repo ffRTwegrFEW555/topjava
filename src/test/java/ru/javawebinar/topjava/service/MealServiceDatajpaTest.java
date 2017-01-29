@@ -21,8 +21,8 @@ import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 public class MealServiceDatajpaTest extends MealServiceTest {
 
     @Test
-    public void testGetWithUserLazy() throws Exception {
-        Meal actual = super.service.getWithUserLazy(ADMIN_MEAL_ID, ADMIN_ID);
+    public void testGetWithUser() throws Exception {
+        Meal actual = super.service.getWithUser(ADMIN_MEAL_ID, ADMIN_ID);
         MATCHER.assertEquals(ADMIN_MEAL1, actual);
         Assert.assertTrue(ADMIN_ID == actual.getUser().getId());
     }
