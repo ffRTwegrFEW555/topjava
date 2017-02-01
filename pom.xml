@@ -35,6 +35,8 @@
 
         <!--Tools-->
         <ehcache.version>2.10.3</ehcache.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
