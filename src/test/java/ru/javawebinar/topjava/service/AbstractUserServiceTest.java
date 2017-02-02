@@ -14,8 +14,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
@@ -45,7 +45,12 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", 1555, false, Collections.singleton(Role.ROLE_USER));
         User created = service.save(newUser);
         newUser.setId(created.getId());
-        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, newUser, USER), service.getAll());
+
+        List<User> usersExpect = Arrays.asList(ADMIN, newUser, USER);
+        List<User> usersActual = service.getAll();
+
+        MATCHER.assertCollectionEquals(usersExpect, usersActual);
+        MATCHER.assertUserRolesEquals(usersExpect, usersActual);
     }
 
     @Test(expected = DataAccessException.class)
@@ -56,7 +61,12 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void testDelete() throws Exception {
         service.delete(USER_ID);
-        MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), service.getAll());
+
+        List<User> usersExpect = Collections.singletonList(ADMIN);
+        List<User> usersActual = service.getAll();
+
+        MATCHER.assertCollectionEquals(usersExpect, usersActual);
+        MATCHER.assertUserRolesEquals(usersExpect, usersActual);
     }
 
     @Test(expected = NotFoundException.class)
@@ -67,7 +77,9 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void testGet() throws Exception {
         User user = service.get(USER_ID);
+
         MATCHER.assertEquals(USER, user);
+        Assert.assertEquals(USER.getRoles(), user.getRoles());
     }
 
     @Test(expected = NotFoundException.class)
@@ -78,13 +90,18 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void testGetByEmail() throws Exception {
         User user = service.getByEmail("user@yandex.ru");
+
         MATCHER.assertEquals(USER, user);
+        Assert.assertEquals(USER.getRoles(), user.getRoles());
     }
 
     @Test
     public void testGetAll() throws Exception {
-        Collection<User> all = service.getAll();
-        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
+        List<User> usersExpect = Arrays.asList(ADMIN, USER);
+        List<User> usersActual = service.getAll();
+
+        MATCHER.assertCollectionEquals(usersExpect, usersActual);
+        MATCHER.assertUserRolesEquals(usersExpect, usersActual);
     }
 
     @Test
@@ -93,7 +110,10 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         updated.setName("UpdatedName");
         updated.setCaloriesPerDay(330);
         service.update(updated);
-        MATCHER.assertEquals(updated, service.get(USER_ID));
+        User user = service.get(USER_ID);
+
+        MATCHER.assertEquals(updated, user);
+        Assert.assertEquals(USER.getRoles(), user.getRoles());
     }
 
     @Test
@@ -103,17 +123,5 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
         validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", 9, true, Collections.emptySet())), ConstraintViolationException.class);
         validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", 10001, true, Collections.emptySet())), ConstraintViolationException.class);
-    }
-
-    @Test
-    public void testRoles() throws Exception {
-        User user = service.get(USER_ID);
-        User admin = service.get(ADMIN_ID);
-
-        Assert.assertTrue(user.getRoles().contains(Role.ROLE_USER));
-        Assert.assertFalse(user.getRoles().contains(Role.ROLE_ADMIN));
-
-        Assert.assertTrue(admin.getRoles().contains(Role.ROLE_USER));
-        Assert.assertTrue(admin.getRoles().contains(Role.ROLE_ADMIN));
     }
 }

@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.matcher;
 
 import org.junit.Assert;
+import ru.javawebinar.topjava.model.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -68,5 +69,15 @@ public class ModelMatcher<T> {
 
     public List<Wrapper> wrap(Collection<T> collection) {
         return collection.stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    public void assertUserRolesEquals(List<User> usersExpect, List<User> usersActual) {
+        if (usersExpect.size() != usersActual.size() || usersExpect.size() == 0) {
+            throw new AssertionError();
+        }
+
+        for (int i = 0; i < usersExpect.size(); i++) {
+            Assert.assertEquals(usersExpect.get(i).getRoles(), usersActual.get(i).getRoles());
+        }
     }
 }
