@@ -103,6 +103,7 @@ public class MealController {
      */
 
     @PostMapping(params = "id=")
+//    @PostMapping(params = "!id")
     public String create(
             @RequestParam(value = "dateTime")       String dateTime,
             @RequestParam(value = "description")    String description,
@@ -125,6 +126,7 @@ public class MealController {
     }
 
     @PostMapping(params = "id!=")
+//    @PostMapping(params = "id")
     public String update(
             @RequestParam(value = "id")             int id,
             @RequestParam(value = "dateTime")       String dateTime,
