@@ -46,7 +46,7 @@ public class JspMealController extends AbstractMealController {
     @PostMapping
     public String updateOrCreate(HttpServletRequest request) {
         String id = request.getParameter("id");
-        Meal userMeal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
+        Meal userMeal = new Meal(id == null ? null : id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.valueOf(request.getParameter("calories")));
