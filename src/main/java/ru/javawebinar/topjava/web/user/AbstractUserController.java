@@ -8,8 +8,8 @@ import ru.javawebinar.topjava.service.UserService;
 
 import java.util.List;
 
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkIdConsistent;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 /**
  * User: gkislin

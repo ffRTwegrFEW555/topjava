@@ -1,6 +1,6 @@
 function makeEditable() {
     $('.delete').click(function () {
-        deleteRow($(this).attr("id"));
+        deleteRow($(this).parent().parent().attr("id"));
     });
 
     $('#detailsForm').submit(function () {
@@ -68,7 +68,7 @@ function successNoty(text) {
         text: text,
         type: 'success',
         layout: 'bottomRight',
-        timeout: true
+        timeout: 5000
     });
 }
 
@@ -77,6 +77,7 @@ function failNoty(event, jqXHR, options, jsExc) {
     failedNote = noty({
         text: 'Failed: ' + jqXHR.statusText + "<br>",
         type: 'error',
-        layout: 'bottomRight'
+        layout: 'bottomRight',
+        timeout: 5000
     });
 }

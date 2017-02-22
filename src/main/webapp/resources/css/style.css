@@ -30,3 +30,28 @@ header, footer {
     padding: 5px 20px;
     margin: 6px 0;
 }
+
+table {
+    width: 400px; /* Ширина таблицы */
+    margin-bottom: 10px;
+}
+
+table th, table td {
+    padding: 5px; /* Поля вокруг текста */
+}
+
+.space-height-15px {
+    width: 10px;
+    height: 15px;
+}
+
+.space-height-30px {
+    width: 10px;
+    height: 30px;
+}
+
+hr.black-2px {
+    border-top: 2px solid #101010;
+    margin-top: 30px;
+    margin-bottom: 30px
+}
