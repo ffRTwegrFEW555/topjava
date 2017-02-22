@@ -15,7 +15,7 @@
             <h3><spring:message code="meals.title"/></h3>
             <div class="space-height-15px"></div>
 
-            <form method="post" action="meals/filter">
+            <form id="filterForm" method="get" action="meals/filter">
                 <table>
                     <tr>
                         <th><spring:message code="meals.startDate"/></th>
@@ -35,6 +35,7 @@
                     </tr>
                 </table>
                 <button class="btn btn-default" type="submit"><spring:message code="meals.filter"/></button>
+                <button class="btn btn-default" type="reset"><spring:message code="common.resetFilter"/></button>
             </form>
 
             <hr class="black-2px">

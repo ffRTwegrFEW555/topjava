@@ -8,6 +8,28 @@ function makeEditable() {
         return false;
     });
 
+    $('#datatable').find(':checkbox').click(function () {
+        var row = $(this).parent().parent();
+        if (this.checked) {
+            row.animate({opacity: 1})
+        } else {
+            row.animate({opacity: 0.3})
+        }
+
+        console.log(datatableApi.row(row).data());
+    });
+
+    var filterForm = $('#filterForm');
+    filterForm.submit(function () {
+            updateTable();
+            return false;
+        });
+    filterForm.find(':reset').click(function() {
+            filterForm[0].reset();
+            updateTable();
+            return false;
+        });
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
     });
@@ -29,16 +51,6 @@ function deleteRow(id) {
     });
 }
 
-function updateTable() {
-    $.get(ajaxUrl, function (data) {
-        datatableApi.clear();
-        $.each(data, function (key, item) {
-            datatableApi.row.add(item);
-        });
-        datatableApi.draw();
-    });
-}
-
 function save() {
     var form = $('#detailsForm');
     $.ajax({
@@ -52,6 +64,7 @@ function save() {
         }
     });
 }
+
 
 var failedNote;
 
