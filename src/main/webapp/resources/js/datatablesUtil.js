@@ -68,7 +68,7 @@ function successNoty(key) {
         text: i18n[key],
         type: 'success',
         layout: 'bottomRight',
-        timeout: true
+        timeout: 5000
     });
 }
 
@@ -77,7 +77,8 @@ function failNoty(event, jqXHR, options, jsExc) {
     failedNote = noty({
         text: i18n['common.failed'] + ': ' + jqXHR.statusText + "<br>" + jqXHR.responseJSON,
         type: 'error',
-        layout: 'bottomRight'
+        layout: 'bottomRight',
+        timeout: 5000
     });
 }
 

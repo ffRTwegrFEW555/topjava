@@ -9,8 +9,8 @@ import ru.javawebinar.topjava.to.UserTo;
 
 import java.util.List;
 
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkIdConsistent;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 /**
  * User: gkislin

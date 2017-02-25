@@ -3,8 +3,11 @@ package ru.javawebinar.topjava.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.MealUtil;
 import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.time.LocalDateTime;
@@ -48,6 +51,12 @@ public class MealServiceImpl implements MealService {
     public Meal update(Meal meal, int userId) {
         Assert.notNull(meal, "meal must not be null");
         return checkNotFoundWithId(repository.save(meal, userId), meal.getId());
+    }
+
+    @Override
+    public void update(MealTo mealTo) {
+        Meal meal = get(mealTo.getId(), AuthorizedUser.id());
+        repository.save(MealUtil.updateFromTo(meal, mealTo), AuthorizedUser.id());
     }
 
     @Override
